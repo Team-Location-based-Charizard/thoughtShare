@@ -1,0 +1,2 @@
+# thoughtShare
+Thought sharing app 
