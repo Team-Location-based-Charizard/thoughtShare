@@ -11,7 +11,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development',
-      template: 'index.html',
+      template: './public/index.html',
     })
   ],
   devServer: {
@@ -20,10 +20,15 @@ module.exports = {
       directory: path.join(__dirname, 'build'),
     },
   },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+},
   module: {
     rules: [
         {
-          test: /\.jsx?/,
+          test: /\.js$|jsx?/,
           exclude: /node_modules/,
           use: {
               loader: 'babel-loader',
