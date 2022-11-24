@@ -1,8 +1,11 @@
 import React from "react";
+import './index.css'
+import LandingPage from "./component/LandingPage.jsx";
+
 
 const App = () => {
   return (
-  <h1>Hello thoughts</h1>
+    <LandingPage />
   );
 };
 
