@@ -3,7 +3,7 @@ import { Map, GoogleApiWrapper } from "google-maps-react";
 import { mapStyles } from "../assets/mapStyles";
 
 const containerStyle = {
-  width: "65%",
+  width: "50%",
   height: "50%",
   float: "left",
 };
