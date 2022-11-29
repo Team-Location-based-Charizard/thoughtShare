@@ -35,7 +35,7 @@ thoughtController.getOnethought = async (req, res, next) => {
 };
 
 thoughtController.createThought = async (req, res, next) => {
-  const { thought, location, user_id } = req.body;
+  const { thought, lat, lng, user_id } = req.body;
 
   // const date = new Date();
   // // convert date to MM/DD/YYYY HH:MM:SS
@@ -53,13 +53,14 @@ thoughtController.createThought = async (req, res, next) => {
   //   ('00' + date.getSeconds()).slice(-2);
 
   const queryText = `
-    INSERT INTO thoughts (thought, location, user_id)
-    VALUES ($1, $2, $3)
+    INSERT INTO thoughts (thought, lat, lng, user_id)
+    VALUES ($1, $2, $3, $4)
     RETURNING *;`;
 
   const values = [
     thought,
-    location,
+    lat,
+    lng,
     user_id
   ];
   const thoughtdata = await db.query(queryText, values);
