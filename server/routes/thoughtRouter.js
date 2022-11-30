@@ -11,6 +11,25 @@ router.post(
   (req, res) => {
     res.status(200).send(res.locals.thought);
   }
+
 );
+
+router.post(
+  '/thoughtsNearby',
+  thoughtController.getNearbyThoughts,
+  (req, res) => {
+    res.status(200).send(res.locals.thoughtsNearby)
+  }
+);
+
+router.get(
+  '/allThoughts',
+  thoughtController.getAllThoughts,
+  (req, res) => {
+    console.log('the thoughts are here ===>', res.locals.thoughts);
+    return res.status(200).send(res.locals.thoughts);
+  }
+);
+
 
 module.exports = router;

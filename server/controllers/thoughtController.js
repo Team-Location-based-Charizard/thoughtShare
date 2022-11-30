@@ -2,21 +2,46 @@ const db = require('../models/userThoughtsModels');
 
 const thoughtController = {};
 
-thoughtController.getAllthoughts = async (req, res, next) => {
+thoughtController.getAllThoughts = async (req, res, next) => {
   //get all thoughts using user_id
-  const { user_id } = req.body;
-  const values = [user_id];
+  // const { user_id } = req.body;
+  // const values = [user_id];
   const queryText = `
-    SELECT R.user_id, t.* 
-    FROM user_thought_rel as R
-    JOIN thoughts as t
-    ON R.thought_id = t.thought_id
-    WHERE R.user_id = ($1);`;
+    SELECT * 
+    FROM thoughts;`;
 
-  const thoughtsdata = await db.query(queryText, values);
-  // console.log(thoughtsdata);
+  const thoughtsdata = await db.query(queryText);
+  // console.log(thoughtsdata.rows);
 
   res.locals.thoughts = thoughtsdata.rows;
+  //console.log(res.locals.thoughts[1])
+  return next();
+};
+
+thoughtController.getNearbyThoughts = async (req, res, next) => {
+  //get all thoughts using user_id
+  const { lat, lng } = req.body;
+  // const lesserLat = lat - 0.03;
+  // const greaterLat = lat + 0.03;
+  // const lesserLng = lng - 0.03;
+  // const greaterLng = lng + 0.03;
+  // const values = [lesserLat, greaterLat, lesserLng, greaterLng];
+  const values = [lat, lng]
+  // const queryText = `
+  //   SELECT *
+  //   FROM thoughts
+  //   WHERE (lat BETWEEN ($1) AND ($2))
+  //   AND (lng BETWEEN ($3) AND ($4));`
+  const queryText = `
+    SELECT *
+    FROM thoughts
+    WHERE (lat BETWEEN ($1 - 0.03) AND ($1 + 0.03))
+    AND (lng BETWEEN ($2 - 0.03) AND ($2 + 0.03));`
+
+    const thoughtsdata = await db.query(queryText, values);
+  // console.log(thoughtsdata);
+
+  res.locals.thoughtsNearby = thoughtsdata.rows;
   return next();
 };
 
