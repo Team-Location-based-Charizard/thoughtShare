@@ -27,15 +27,44 @@ class MapContainer extends Component {
     this.state = {
       markers: [
         {
-          id: "1",
-          thought: "SOMA",
-          position: { lat: 37.778519, lng: -122.40564 }
-        }
-      ]
+          title: "The marker`s title will appear as a tooltip.",
+          name: "SOMA",
+          position: { lat: 37.778519, lng: -122.40564 },
+        },
+      ],
     };
     this.onClick = this.onClick.bind(this);
   }
 
+  getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.showPosition);
+    } else {
+      return "hello";
+    }
+  };
+
+  showPosition(t, map, position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    this.setState((previousState) => {
+      return {
+        markers: [
+          ...previousState.markers,
+          {
+            title: "heyyy",
+            name: "",
+            position: { lat, lng },
+          },
+        ],
+      };
+    });
+  }
+  // showPosition(position) {
+  //   // Recenter gmap to following
+  //   lat = position.coords.latitude
+  //   long = position.coords.longitude
+  // }
   componentDidMount() {
     console.log('did mount?')
     fetch('http://localhost:3000/api/thoughts/allThoughts')
@@ -70,17 +99,16 @@ class MapContainer extends Component {
     const { latLng } = coord;
     const lat = latLng.lat();
     const lng = latLng.lng();
-
-    this.setState(previousState => {
+    this.setState((previousState) => {
       return {
         markers: [
           ...previousState.markers,
           {
-            id: "",
-            thought: "this is a thought!",
-            position: { lat, lng }
-          }
-        ]
+            title: "heyyy",
+            name: "",
+            position: { lat, lng },
+          },
+        ],
       };
     });
   }
@@ -97,18 +125,20 @@ class MapContainer extends Component {
           lat: 34.052235,
           lng: -118.243683,
         }}
-        onClick={this.onClick}
+        onDblclick={this.onClick}
       >
+        
         {this.state.markers.map((marker, index) => (
-            <Marker
-              key={index}
-              title={marker.title}
-              name={marker.name}
-              position={marker.position}
-            />
-          ))}
-        <Marker /> 
-      </Map> 
+          <Marker
+            key={index}
+            title={marker.title}
+            name={marker.name}
+            position={marker.position}
+          />
+        ))}
+        
+        <Marker />
+      </Map>
     );
   }
 }
