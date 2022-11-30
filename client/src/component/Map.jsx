@@ -37,20 +37,8 @@ class MapContainer extends Component {
   }
 
   componentDidMount() {
-    // let info = {
-    //   lat: 34.052235,
-    //   lng: -118.243683,
-    // }
     console.log('did mount?')
-    fetch('http://localhost:3000/api/thoughts/allThoughts' 
-    // {
-    //   method: 'POST', // or 'PUT'
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(info),
-    // }
-    )
+    fetch('http://localhost:3000/api/thoughts/allThoughts')
     .then((data) => {
       console.log(data)
       JSON.stringify(data);
