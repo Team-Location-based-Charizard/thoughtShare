@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Nav from "./Nav";
-import MapContainer from "./Map";
+import MapContainer from "./Map.jsx";
 // import { useEffect, useState } from "react";
 
 const LandingPage = () => {
