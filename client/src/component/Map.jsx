@@ -12,14 +12,6 @@ const mapStyle = {
   styles: mapStyles,
 };
 
-// const renderMarkers = (Map, maps) => {
-//   let marker = new google.Map.Marker({
-//     position: { lat: 34.052235, lng: -118.243683 },
-
-//     title: "Hello World!",
-//   });
-//   return marker;
-// };
 
 class MapContainer extends Component {
   constructor(props) {
@@ -60,39 +52,35 @@ class MapContainer extends Component {
       };
     });
   }
-  // showPosition(position) {
-  //   // Recenter gmap to following
-  //   lat = position.coords.latitude
-  //   long = position.coords.longitude
-  // }
-  componentDidMount() {
-    console.log('did mount?')
-    fetch('http://localhost:3000/api/thoughts/allThoughts')
-    .then((data) => {
-      console.log(data)
-      JSON.stringify(data);
-    })
-    .then((data) => {
-      console.log(data)
-      for(let i = 0 ; i < data.length ; i++){
-        let lat = data.lat;
-        let lng = data.lng;
-        this.setState(previousState => {
-          let mark = {
-            id: data._id,
-            thought: data.thought,
-            position : { lat, lng },
-          }
-          return {
-            markers :[
-              ...previousState.markers,
-              mark
-            ]
-          }
-        })
-      }
-    })
-  };
+  
+  // componentDidMount() {
+  //   console.log('did mount?')
+  //   fetch('http://localhost:3000/api/thoughts/allThoughts')
+  //   .then((data) => {
+  //     console.log(data)
+  //     JSON.stringify(data);
+  //   })
+  //   .then((data) => {
+  //     console.log(data)
+  //     for(let i = 0 ; i < data.length ; i++){
+  //       let lat = data.lat;
+  //       let lng = data.lng;
+  //       this.setState(previousState => {
+  //         let mark = {
+  //           id: data._id,
+  //           thought: data.thought,
+  //           position : { lat, lng },
+  //         }
+  //         return {
+  //           markers :[
+  //             ...previousState.markers,
+  //             mark
+  //           ]
+  //         }
+  //       })
+  //     }
+  //   })
+  // };
 
 
   onClick(t, map, coord) {
@@ -125,7 +113,7 @@ class MapContainer extends Component {
           lat: 34.052235,
           lng: -118.243683,
         }}
-        onDblclick={this.onClick}
+        onClick={this.onClick}
       >
         
         {this.state.markers.map((marker, index) => (
