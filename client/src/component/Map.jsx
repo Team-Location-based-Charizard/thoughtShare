@@ -1,5 +1,5 @@
-import { Component } from "react";
-import { Map, GoogleApiWrapper } from "google-maps-react";
+import { Component, useState } from "react";
+import { Map, GoogleApiWrapper, Marker, google, InfoWindow} from "google-maps-react";
 import { mapStyles } from "../assets/mapStyles";
 
 const containerStyle = {
@@ -11,8 +11,65 @@ const containerStyle = {
 const mapStyle = {
   styles: mapStyles,
 };
+      
 
 class MapContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      markers: [
+        {
+          title: "There's a thought here!",
+          name: "my brain is fried",
+          position: { lat: 34.052235, lng: -118.243683 }
+        },
+        {
+          title: "Hidden thought here!",
+          name: "lol",
+          position: { lat: 35.052235, lng: -119.243683 }
+        }
+      ],
+    showingInfoWindow: false,
+    activeMarker: {},
+    selectedPlace: {},
+    };
+    // this.onClick = this.onClick.bind(this);
+  }
+
+
+  handleToggleClose = () => {
+    this.setState({
+      showingInfoWindow: false,
+    });
+  }
+
+  handleToggleOpen = (ele, marker, e) => {
+    this.setState({
+      selectedPlace: ele,
+      activeMarker: marker,
+      showingInfoWindow: true
+    })
+  }
+  
+  onClick(t, map, coord) {
+    const { latLng } = coord;
+    const lat = latLng.lat();
+    const lng = latLng.lng();
+
+    this.setState(previousState => {
+      return {
+        markers: [
+          ...previousState.markers,
+          {
+            title: "heyyy",
+            name: "",
+            position: { lat, lng }
+          }
+        ]
+      };
+    });
+  }
+
   render() {
     return (
       <Map
@@ -20,14 +77,43 @@ class MapContainer extends Component {
         containerStyle={containerStyle}
         mapStyle={mapStyle}
         zoom={10}
+        
         initialCenter={{
           lat: 34.052235,
           lng: -118.243683,
         }}
-      />
+        // onDblclick={this.onClick}
+      >
+        {this.state.markers.map((ele, index) => {
+          return(
+            <Marker
+              key={index}
+              title={ele.title}
+              name={ele.name}
+              position={ele.position}
+              onClick={this.handleToggleOpen}
+            />
+          )
+        })}
+
+       <InfoWindow 
+          marker={this.state.activeMarker}
+          onClose={this.handleToggleClose}
+          visible={this.state.showingInfoWindow}
+          >
+           <div>
+              <h1>{this.state.selectedPlace.name}</h1>
+            </div>
+        </InfoWindow>
+
+        
+        
+      </Map> 
     );
   }
 }
+
+
 
 export default GoogleApiWrapper({
   apiKey: "AIzaSyAUTgzsq1-33AaJ7larbKfO-R2coYC4-ac",
